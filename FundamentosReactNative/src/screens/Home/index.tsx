@@ -8,27 +8,21 @@ import {
 } from "react-native";
 import { styles } from "./styles";
 import { Participant } from "../../components/Participant";
+import { useState } from "react";
 
 export default function Home() {
-  const participants = [
-    "Rodrigo",
-    "Cesar",
-    "Nagoya",
-    "Cielo",
-    "Roberta",
-    "Maria",
-    "Mike",
-    "Isa",
-    "ASUDHAUSI",
-    "ASUDHAUSID",
-    "ASUDHAUSI234",
-    "ASUDHAUSIAAAA",
-  ];
+  const [participants, setParticipants] = useState<string[]>([]);
+  const [newParticipant, setNewParticipant] = useState("");
+
   function handleParticipantAdd() {
-    if (participants.includes("Rodrigo")) {
-      return Alert.alert("Participante", "Participante já adicionado");
+    if (participants.includes(newParticipant)) {
+      setNewParticipant("");
+      return Alert.alert("Participante", "Esse participante ja foi adicionado");
     }
-    console.log("Adicionar participante");
+    if (newParticipant.trim() === "") {
+      return Alert.alert("Participante", "Colocar um nome e obrigatorio");
+    }
+    setParticipants([...participants, newParticipant]);
   }
   function handleParticipantRemove(name: string) {
     Alert.alert(
@@ -44,12 +38,13 @@ export default function Home() {
         {
           text: "Sim",
           onPress: () => {
-            console.log("Deletado");
+            setParticipants(
+              participants.filter((participant) => participant !== name)
+            );
           },
         },
       ]
     );
-    console.log("Remover participante");
   }
   return (
     <View style={styles.container}>
@@ -59,8 +54,10 @@ export default function Home() {
       <View style={styles.form}>
         <TextInput
           style={styles.input}
-          placeholder="Digite o nome do evento"
+          placeholder="Digite o nome do participante"
           placeholderTextColor="#6b6b6b"
+          onChangeText={setNewParticipant}
+          value={newParticipant}
         />
         <TouchableOpacity style={styles.button} onPress={handleParticipantAdd}>
           <Text style={styles.buttonText}>+</Text>
