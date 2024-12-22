@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   Heading,
   HStack,
@@ -8,10 +9,15 @@ import {
 } from "@gluestack-ui/themed";
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 import { ChevronRight } from "lucide-react-native";
+import { api } from "@services/api";
+import { useToast } from "@gluestack-ui/themed";
+import { ExercisesDTO } from "@dtos/ExercisesDTO";
 
-type Props = TouchableOpacityProps & {};
+type Props = TouchableOpacityProps & {
+  data: ExercisesDTO;
+};
 
-export function ExerciseCard({ ...rest }: Props) {
+export function ExerciseCard({ data, ...rest }: Props) {
   return (
     <TouchableOpacity {...rest} activeOpacity={0.4}>
       <HStack
@@ -24,9 +30,9 @@ export function ExerciseCard({ ...rest }: Props) {
       >
         <Image
           source={{
-            uri: "https://www.mundoboaforma.com.br/wp-content/uploads/2020/12/costas-remada-em-pe-com-barra-T.gif",
+            uri: `${api.defaults.baseURL}/exercise/thumb/${data.thumb}`,
           }}
-          alt="Exercicio1"
+          alt="Exercicios"
           w="$16"
           h="$16"
           rounded="$md"
@@ -35,10 +41,10 @@ export function ExerciseCard({ ...rest }: Props) {
         />
         <VStack flex={1}>
           <Heading fontSize="$lg" color="$white" fontFamily="$heading">
-            Costas Pimba
+            {data.name}
           </Heading>
           <Text fontSize="$sm" color="$gray200" mt="$1" numberOfLines={1}>
-            3 series x 12 repeticoes
+            {data.series} series x {data.repetitions} repeticoes
           </Text>
         </VStack>
         <Icon as={ChevronRight} color="$gray300" />
