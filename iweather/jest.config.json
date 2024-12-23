@@ -18,7 +18,7 @@
     "^.+\\.svg$": "jest-transformer-svg"
   },
   "collectCoverageFrom": ["./src/**/*.{ts,tsx}", "!./src/**/styles.ts"],
-  "coveragePatheIgnorePatterns": [
+  "coveragePathIgnorePatterns": [
     "./src/@types",
     "./src/styles",
     "./src/libs/dayjs",
